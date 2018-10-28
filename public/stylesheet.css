@@ -5,6 +5,20 @@ body {
   background-color: #f6e9e5;
 }
 
+@media screen and (min-device-width : 1501px)
+{
+  .variables {
+    font-size: 16px !important;
+  }
+}
+
+@media screen and (min-device-width : 1501px)
+{
+  .variables {
+    font-size: 16px !important;
+  }
+}
+
 #login,
 #loggedin {
   display: none;
