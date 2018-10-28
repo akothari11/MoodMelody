@@ -24,6 +24,11 @@ body {
   display: none;
 }
 
+.swal2-popup
+{
+  zoom: 1.5;
+}
+
 .text-overflow {
   overflow: hidden;
   text-overflow: ellipsis;
