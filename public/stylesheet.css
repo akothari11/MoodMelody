@@ -1,0 +1,170 @@
+body {
+  text-align: center;
+  font-family: "HelveticaNeue-Light";
+  font-size: 20px;
+  background-color: #f6e9e5;
+}
+
+#login,
+#loggedin {
+  display: none;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 500px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown select {
+  display: none;
+  /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: white;
+  border-radius: 6px;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 23px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #e8f3f7 transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #e8f3f7 transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,
+.select-selected {
+  color: black;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: white;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#accessToken {
+  display: none;
+}
+
+.container {
+  text-align: center;
+}
+
+#login {
+  margin-top: 34%;
+}
+
+#mainDiv {
+  margin: 10%
+}
+
+#tuningContainer {
+  height: 38px;
+  margin-top: 70px;
+}
+
+#leftPane {
+  height: 674px;
+  background-color: #e8f3f7;
+  border-radius: 6px;
+}
+
+#rightPane {
+  height: 674px;
+  color: black;
+  overflow: scroll;
+}
+
+#infoImg {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+#logo {
+  position: relative;
+  top: 80px;
+}
+
+#centerDiv {
+  position: absolute;
+  top: 48%
+}
+
+#genre {
+  background-color: #e8f3f7;
+}
+
+.variables {
+  font-size: 16px;
+  margin: -10%
+}
+
+.trackDiv
+{
+  height:64px; margin: 16px 8px;
+}
+
+.imgDiv
+{
+  float:left; height:64px
+}
+
+.trackInfo
+{
+  display:table-cell; vertical-align: middle; margin-left: 8px; height: 64px; text-align: left;
+}
+
+.trackDetail
+{
+   overflow-x: hidden;
+   font-size: 16px;
+}
+
+.trackDetail.songName{
+  font-weight: bold;
+    font-size: large;
+    height: 22px !important;
+}
+.trackDetail.artistAlbum{
+  font-weight: lighter;
+  height: 20px;
+}
