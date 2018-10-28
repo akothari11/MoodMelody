@@ -39,13 +39,13 @@ function retrieveRecommendations() {
   var param = "limit=50&seed_genres=" + genreValue + "&energy=" + energyValue.toString() + "&valence=" + valenceValue.toString() + "&instrumentalness=" + instrumentalValue.toString() + "&popularity=" + popularityValue.toString();
 
   //Handle error cases by showing an alert describing error
-  if ((popularityValue < 0 || energyValue < 0 || valenceValue < 0 || instrumentalValue < 0) && genreValue == "") {
+  if ((popularityValue < 0 || isNaN(popularityValue) || energyValue < 0 || isNaN(energyValue) || valenceValue < 0 || isNaN(valenceValue) || instrumentalValue < 0 || isNaN(instrumentalValue)) && genreValue == "") {
     swal({
       type: 'error',
       title: 'Oops...',
       text: 'Please select a genre and enter a value between 0-10'
     });
-  } else if (popularityValue < 0 || energyValue < 0 || valenceValue < 0 || instrumentalValue < 0) {
+  } else if (popularityValue < 0 || isNaN(popularityValue) || energyValue < 0 || isNaN(energyValue) || valenceValue < 0 || isNaN(valenceValue) || instrumentalValue < 0 || isNaN(instrumentalValue)) {
     swal({
       type: 'error',
       title: 'Oops...',
