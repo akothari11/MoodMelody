@@ -73,6 +73,7 @@ function retrieveRecommendations() {
       $("#recommendationDiv").empty();
       $("#recommendationDiv").css("display", "block");
       $("#informationDiv").css("display", "none");
+      console.log(data);
       for (var i = 0; i < data.tracks.length; i++) {
         trackName = data.tracks[i].name;
         artistName = data.tracks[i].artists[0].name;

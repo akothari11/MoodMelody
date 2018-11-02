@@ -10,18 +10,19 @@
   <script src="sweetalert2.all.min.js"></script>
 <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+
 </head>
 
-<body class="clearfix">
-  <input id="accessToken" value=""/>
+<body>
   <div class="container">
+    <input id="accessToken" value="" />
     <div id="login">
       <img src="logo.png">
-      <br/>
-      <button id="login-button" class="btn btn-primary" style="background-color:white;color:black;border-color:white;">Log in with Spotify</button>
+      <br />
+      <a href="/login" class="btn btn-primary">Log in with Spotify</a>
     </div>
-  </div>
 
+  </div>
   <div id="loggedin" class="col-xs-12">
     <div id="user-profile">
     </div>
@@ -75,19 +76,19 @@
 
           <div id="tuningContainer">
             <div class="col-xs-3 dropdown">
-              <input class="variables" id="popularity" type="number" placeholder="Popularity"value=""/>
+              <input class="variables" id="popularity" type="number" placeholder="Popularity" value="" />
 
             </div>
             <div class="col-xs-3 dropdown">
-              <input class="variables" id="energy" type="number" placeholder="Energy"  value=""/>
+              <input class="variables" id="energy" type="number" placeholder="Energy" value="" />
 
             </div>
             <div class="col-xs-3 dropdown">
-              <input class="variables" id="valence" type="number" placeholder="Valence" value=""/>
+              <input class="variables" id="valence" type="number" placeholder="Valence" value="" />
 
             </div>
             <div class="col-xs-3 dropdown">
-              <input class="variables" id="instrumentalness" type="number" placeholder="Instrumentalness" value=""/>
+              <input class="variables" id="instrumentalness" type="number" placeholder="Instrumentalness" value="" />
 
             </div>
           </div>
@@ -104,19 +105,20 @@
       </div>
       <div id="rightPane" class="col-xs-6">
         <div id="informationDiv">
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
           <p>
-            MoodMelody is an application that allows for the discovery of new music and artists depending on how you, the listener, are feeling. By selecting a genre of music and the mood you are in, this application will present songs that Spotify
+            MoodMelody is an application that allows for the discovery of new music and artists depending on how you, the listener, are feeling. By selecting a genre of music and the mood you are in, this application will present songs that
+            Spotify
             has identified will embody your mood. If our presets aren’t capturing your mood, feel free to adjust the preset values, ranging from 0-10!
-            <br/> <br/><br/>
+            <br /> <br /><br />
             Popularity – The prevalence of a song based on its total number of plays within the past month.
-            <br/><br/>
+            <br /><br />
             Energy - The perceptual measure of intensity and activity within a song. High energy tracks are typically fast and loud.
-            <br/><br/>
+            <br /><br />
             Valence – The measure of how much musical positivity is conveyed in the song. A higher valence track will be more happy and cheerful.
-            <br/><br/>
+            <br /><br />
             Instrumentalness - A prediction of whether or not a song contains vocals. A higher instrumentalness value represents an absence of vocals within a song.
           </p>
         </div>
@@ -125,7 +127,6 @@
       </div>
     </div>
   </div>
-
   <script id="user-profile-template" type="text/x-handlebars-template">
     <h1>Logged in as {{display_name}}</h1>
       <div class="media">
@@ -147,9 +148,10 @@
     </script>
 
   <script id="oauth-template" type="text/x-handlebars-template">
-    <h2>oAuth info</h2>
-      <dl class="dl-horizontal">
+    <h2 style="display:none !important;">oAuth info</h2>
+      <dl class="dl-horizontal" >
         <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
       </dl>
     </script>
 
@@ -237,8 +239,6 @@
   <script>
     (function() {
 
-      var stateKey = 'spotify_auth_state';
-
       /**
        * Obtains parameters from the hash of the URL
        * @return Object
@@ -253,41 +253,32 @@
         return hashParams;
       }
 
-      /**
-       * Generates a random string containing numbers and letters
-       * @param  {number} length The length of the string
-       * @return {string} The generated string
-       */
-      function generateRandomString(length) {
-        var text = '';
-        var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-        for (var i = 0; i < length; i++) {
-          text += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return text;
-      };
-
       var userProfileSource = document.getElementById('user-profile-template').innerHTML,
         userProfileTemplate = Handlebars.compile(userProfileSource),
         userProfilePlaceholder = document.getElementById('user-profile');
 
-      oauthSource = document.getElementById('oauth-template').innerHTML,
-        oauthTemplate = Handlebars.compile(oauthSource),
+      var oauthSource = document.getElementById('oauth-template').innerHTML,
+        //oauthTemplate = Handlebars.compile(oauthSource),
         oauthPlaceholder = document.getElementById('oauth');
 
       var params = getHashParams();
 
       var access_token = params.access_token,
-        state = params.state,
-        storedState = localStorage.getItem(stateKey);
+        refresh_token = params.refresh_token,
+        error = params.error;
 
-      $("#accessToken").val(access_token);
-      if (access_token && (state == null || state !== storedState)) {
+      if (error) {
         alert('There was an error during the authentication');
       } else {
-        localStorage.removeItem(stateKey);
         if (access_token) {
+          // render oauth info
+          $("#accessToken").val(access_token);
+          /*
+          oauthPlaceholder.innerHTML = oauthTemplate({
+            access_token: access_token,
+            refresh_token: refresh_token
+          });*/
+
           $.ajax({
             url: 'https://api.spotify.com/v1/me',
             headers: {
@@ -301,32 +292,28 @@
             }
           });
         } else {
+          // render initial screen
           $('#login').show();
           $('#loggedin').hide();
         }
 
-        document.getElementById('login-button').addEventListener('click', function() {
-
-          var client_id = '925f67f4e9734987b21c8baedb00a817'; // Your client id
-          var redirect_uri = 'http://localhost:8888'; // Your redirect uri
-
-          var state = generateRandomString(16);
-
-          localStorage.setItem(stateKey, state);
-          var scope = 'user-read-private user-read-email';
-
-          var url = 'https://accounts.spotify.com/authorize';
-          url += '?response_type=token';
-          url += '&client_id=' + encodeURIComponent(client_id);
-          url += '&scope=' + encodeURIComponent(scope);
-          url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
-          url += '&state=' + encodeURIComponent(state);
-
-          window.location = url;
+        document.getElementById('obtain-new-token').addEventListener('click', function() {
+          $.ajax({
+            url: '/refresh_token',
+            data: {
+              'refresh_token': refresh_token
+            }
+          }).done(function(data) {
+            access_token = data.access_token;
+            oauthPlaceholder.innerHTML = oauthTemplate({
+              access_token: access_token,
+              refresh_token: refresh_token
+            });
+          });
         }, false);
-
       }
     })();
   </script>
+</body>
 
 </html>
