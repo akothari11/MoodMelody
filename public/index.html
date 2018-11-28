@@ -15,7 +15,8 @@
 
 <body>
   <div class="container">
-    <input id="accessToken" value="" />
+    <input class="hdn" id="accessToken" value="" />
+    <input class="hdn" id="userID" value="" />
     <div id="login">
       <img src="logo.png">
       <br />
@@ -286,7 +287,7 @@
             },
             success: function(response) {
               //userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-
+              $("#userID").val(response.id);
               $('#login').hide();
               $('#loggedin').show();
             }
